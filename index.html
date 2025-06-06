@@ -1,7 +1,70 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tucker | Astrophysicist & Computational Physicist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center justify-center bg-white">
+    <div class="text-center px-4">
+      <h1 class="text-5xl font-bold mb-4">Tucker</h1>
+      <p class="text-xl">Astrophysics PhD Student • Computational Physicist • Simulation Enthusiast</p>
+      <p class="mt-2 text-gray-600">Focused on galaxy evolution, CFD, MHD, and machine learning for astrophysics</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-16 px-8 bg-gray-50" id="about">
+    <h2 class="text-3xl font-bold mb-4 text-center">About Me</h2>
+    <div class="max-w-3xl mx-auto text-center">
+      <p>I’m a first-year astrophysics PhD student exploring galactic archaeology, stellar ages, and computational methods. I work with machine learning, numerical analysis, and simulation codes like NEXUS to understand galaxy formation. I'm also targeting skills that translate to national labs and high-impact industry roles.</p>
+    </div>
+  </section>
+
+  <!-- Research & Papers Section -->
+  <section class="py-16 px-8 bg-white" id="research">
+    <h2 class="text-3xl font-bold mb-8 text-center">Research & Papers</h2>
+    <div class="max-w-4xl mx-auto space-y-6">
+      <div>
+        <h3 class="text-xl font-semibold">Using ML to Predict Stellar Ages from Spectroscopy</h3>
+        <p class="text-gray-700">Master's thesis project using XGBoost and Bayesian isochrone fitting to derive stellar ages from GALAH DR4. Currently refining cross-validation and uncertainty propagation techniques.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold">Upcoming: Chemistry-Driven Age Models for Older Stars</h3>
+        <p class="text-gray-700">A follow-up study to extend stellar age predictions beyond turn-off stars, incorporating new chemical clocks and potential gyrochronology methods.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="py-16 px-8 bg-gray-50" id="projects">
+    <h2 class="text-3xl font-bold mb-8 text-center">Projects</h2>
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div class="bg-white p-6 rounded-xl shadow-md">
+        <h3 class="text-xl font-semibold">Galaxy Simulations with NEXUS</h3>
+        <p class="text-gray-700">Working toward high-resolution simulations of galaxy evolution using NEXUS with plans to incorporate MHD and AMR techniques.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-md">
+        <h3 class="text-xl font-semibold">Stellar Age Prediction Pipeline</h3>
+        <p class="text-gray-700">Built an end-to-end machine learning pipeline for age regression from stellar abundances, including residual analysis and feature importance visualization.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-16 px-8 bg-white text-center" id="contact">
+    <h2 class="text-3xl font-bold mb-4">Contact</h2>
+    <p class="text-lg text-gray-700 mb-4">Let’s collaborate or chat research.</p>
+    <p>Email: <a href="mailto:your.email@example.com" class="text-blue-600">your.email@example.com</a></p>
+    <p>GitHub: <a href="https://github.com/yourusername" class="text-blue-600">@yourusername</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-6 bg-gray-200 text-center text-sm text-gray-600">
+    © 2025 Tucker. All rights reserved.
+  </footer>
 </body>
 </html>
