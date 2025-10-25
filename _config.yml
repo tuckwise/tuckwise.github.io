@@ -1,14 +1,14 @@
 
-title: "Tucker Jones | Astrophysicist"
+title: "Tucker Capps | Astrophysicist"
 description: "PhD Candidate | Galactic Evolution • Simulations • HPC • Outreach"
 baseurl: "" # Leave blank for main site
-url: "https://tuckerjones.github.io"
+url: "https://tuckerCapps.github.io"
 theme: minima
 author:
-  name: "Tucker Jones"
-  email: "tucker.jones@ou.edu"
-  github: "tuckerjones"
-  linkedin: "tucker-jones"
+  name: "Tucker Capps"
+  email: "capps@ou.edu"
+  github: "tuckwise"
+  linkedin: "tuckercapps"
   orcid: "0000-0000-XXXX-XXXX"
   university: "University of Oklahoma"
 
@@ -21,8 +21,8 @@ header_pages:
 
 # Social links (optional)
 social_links:
-  - { platform: github, user_url: "https://github.com/tuckerjones" }
-  - { platform: linkedin, user_url: "https://linkedin.com/in/tucker-jones" }
+  - { platform: github, user_url: "https://github.com/tuckwise" }
+  - { platform: linkedin, user_url: "https://linkedin.com/in/tuckercapps" }
   - { platform: orcid, user_url: "https://orcid.org/0000-0000-XXXX-XXXX" }
 
 # Build settings
