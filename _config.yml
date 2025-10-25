@@ -1,1 +1,33 @@
 
+title: "Tucker Jones | Astrophysicist"
+description: "PhD Candidate | Galactic Evolution • Simulations • HPC • Outreach"
+baseurl: "" # Leave blank for main site
+url: "https://tuckerjones.github.io"
+theme: minima
+author:
+  name: "Tucker Jones"
+  email: "tucker.jones@ou.edu"
+  github: "tuckerjones"
+  linkedin: "tucker-jones"
+  orcid: "0000-0000-XXXX-XXXX"
+  university: "University of Oklahoma"
+
+# Navigation (we'll add links to header)
+header_pages:
+  - research.md
+  - projects.md
+  - outreach.md
+  - cv.md
+
+# Social links (optional)
+social_links:
+  - { platform: github, user_url: "https://github.com/tuckerjones" }
+  - { platform: linkedin, user_url: "https://linkedin.com/in/tucker-jones" }
+  - { platform: orcid, user_url: "https://orcid.org/0000-0000-XXXX-XXXX" }
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
