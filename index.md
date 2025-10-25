@@ -5,7 +5,7 @@ title: "Home"
 
 <div align="center">
 
-# **Tucker Jones**
+# **Tucker Capps**
 _PhD Candidate in Astrophysics_  
 _University of Oklahoma_
 
@@ -46,5 +46,5 @@ I’m passionate about making the night sky accessible and inspiring curiosity t
 ---
 
 <div align="center">
-<sub>© {{ site.time | date: "%Y" }} Tucker Jones · University of Oklahoma</sub>
+<sub>© {{ site.time | date: "%Y" }} Tucker Capps · University of Oklahoma</sub>
 </div>
