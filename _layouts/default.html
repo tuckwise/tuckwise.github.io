@@ -1,1 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+      <nav>
+        {% for page in site.pages %}
+          {% if page.title and page.url contains '.html' == false %}
+            <a href="{{ page.url | relative_url }}">{{ page.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+    </header>
 
+    <main>
+      {{ content }}
+    </main>
+
+    <footer>
+      <p>© {{ site.time | date: "%Y" }} {{ site.author.name }} • {{ site.author.university }}</p>
+      <p>
+        <a href="https://github.com/{{ site.author.github }}">GitHub</a> |
+        <a href="https://linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a> |
+        <a href="https://orcid.org/{{ site.author.orcid }}">ORCID</a>
+      </p>
+    </footer>
+  </body>
+</html>
