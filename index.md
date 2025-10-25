@@ -26,8 +26,7 @@ I also apply **machine learning techniques** to stellar survey data (e.g., **GAL
 - Galactic archaeology & chemical evolution  
 - Stellar dynamics & radial migration  
 - HPC methods in astrophysical simulations  
-- Physics-informed machine learning  
-- Data-driven stellar age inference  
+- Physics-informed machine learning
 
 ---
 
