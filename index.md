@@ -36,17 +36,3 @@ I’m passionate about making the night sky accessible and inspiring curiosity t
 
 ---
 
-<div align="center" style="margin-top:2rem;">
-
-<a href="/research" style="margin:0 12px; text-decoration:none; color:#a989ff; font-weight:600;">Research</a>
-<a href="/outreach" style="margin:0 12px; text-decoration:none; color:#a989ff; font-weight:600;">Outreach</a>
-<a href="/cv" style="margin:0 12px; text-decoration:none; color:#a989ff; font-weight:600;">CV</a>
-
-</div>
-
-<br>
-
-<div align="center">
-<sub>© {{ site.time | date: "%Y" }} Tucker Capps · University of Oklahoma</sub>
-</div>
-
