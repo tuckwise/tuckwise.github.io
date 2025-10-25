@@ -5,11 +5,11 @@ title: "Home"
 
 <div align="center">
 
-# **Tucker Capps**
-_PhD Candidate in Astrophysics_  
-_University of Oklahoma_
+<h1><strong>Tucker Capps</strong></h1>
+<p><em>PhD Candidate in Astrophysics</em></p>
+<p><em>University of Oklahoma</em></p>
 
----
+<hr style="width:40%; border:1px solid #444; margin:1.5rem auto;">
 
 </div>
 
@@ -37,13 +37,13 @@ I’m passionate about making the night sky accessible and inspiring curiosity t
 
 ---
 
-<div align="center">
+<div align="center" style="margin-top:1.5rem;">
 
 [**View Research →**](/research) • [**Outreach →**](/outreach) • [**CV →**](/cv)
 
 </div>
 
----
+<br>
 
 <div align="center">
 <sub>© {{ site.time | date: "%Y" }} Tucker Capps · University of Oklahoma</sub>
