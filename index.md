@@ -4,6 +4,14 @@ title: "Home"
 ---
 
 <div align="center">
+  <img src="/assets/images/portrait.jpg" 
+       alt="Portrait of Tucker Jones" 
+       width="230" 
+       style="border-radius:50%; margin-top:1rem; box-shadow:0 0 10px rgba(100, 100, 100, 0.3);">
+</div>
+
+
+<div align="center">
 
 <h1><strong>Tucker Capps</strong></h1>
 <p><em>PhD Candidate in Astrophysics</em></p>
