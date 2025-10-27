@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   {% include head.html %}
-  <body>
+  <body style="background: url('/assets/images/background.jpg') no-repeat center center fixed;
+               background-size: cover;
+               background-attachment: fixed;
+               margin: 0; 
+               padding: 0;
+               color: #e0e0e0;
+               font-family: 'Cormorant Garamond', serif;">
+
+    <!-- Header + Nav (floats freely over background) -->
     <header style="text-align:center; margin-top:2rem;">
       <h1 style="margin-bottom:0.5rem;">
         <a href="{{ '/' | relative_url }}" style="text-decoration:none; color:#f5f5f5;">
@@ -15,20 +23,24 @@
         <a href="{{ '/outreach' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Outreach</a>
         <a href="{{ '/cv' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">CV</a>
       </nav>
-      <hr style="width:80%; border:1px solid #222;">
     </header>
 
-
-    <main>
+    <!-- Main content container (black box overlay) -->
+    <main style="max-width:850px; 
+                 margin:2rem auto; 
+                 background-color:rgba(0,0,0,0.88); 
+                 padding:2rem 2.5rem; 
+                 border-radius:12px; 
+                 box-shadow:0 0 20px rgba(0,0,0,0.6);">
       {{ content }}
     </main>
 
-    <footer>
+    <footer style="text-align:center; margin:3rem 0 1rem 0; font-size:0.9rem; color:#888;">
       <p>© {{ site.time | date: "%Y" }} {{ site.author.name }} • {{ site.author.university }}</p>
       <p>
-        <a href="https://github.com/{{ site.author.github }}">GitHub</a> |
-        <a href="https://linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a> |
-        <a href="https://orcid.org/{{ site.author.orcid }}">ORCID</a>
+        <a href="https://github.com/{{ site.author.github }}" style="color:#888; text-decoration:none;">GitHub</a> |
+        <a href="https://linkedin.com/in/{{ site.author.linkedin }}" style="color:#888; text-decoration:none;">LinkedIn</a> |
+        <a href="https://orcid.org/{{ site.author.orcid }}" style="color:#888; text-decoration:none;">ORCID</a>
       </p>
     </footer>
   </body>
