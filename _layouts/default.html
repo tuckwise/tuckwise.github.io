@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   {% include head.html %}
-  <body style="background: url('/assets/images/background.jpg') no-repeat center center fixed;
-               background-size: cover;
-               background-attachment: fixed;
-               margin: 0; 
-               padding: 0;
-               color: #e0e0e0;
-               font-family: 'Cormorant Garamond', serif;">
+  <body style="background: url('{{ "/assets/images/background.jpg" | relative_url }}') no-repeat center center fixed;
+             background-size: cover;
+             background-attachment: fixed;
+             margin: 0;
+             padding: 0;
+             color: #e0e0e0;">
+
 
     <!-- Header + Nav (floats freely over background) -->
     <header style="text-align:center; margin-top:2rem;">
