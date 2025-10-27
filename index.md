@@ -3,23 +3,22 @@ layout: default
 title: "Home"
 ---
 
-<div align="center">
-  <img src="/assets/images/portrait.jpg" 
-       alt="Portrait of Tucker Jones" 
-       width="230" 
-       style="border-radius:50%; margin-top:1rem; box-shadow:0 0 10px rgba(100, 100, 100, 0.3);">
-</div>
+<div style="display:flex; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
 
+  <img src="/assets/images/portrait.jpg"
+       alt="Portrait of Tucker Capps"
+       width="200"
+       style="border-radius:12px; margin:1rem; box-shadow:0 0 10px rgba(100,100,100,0.3);">
 
-<div align="center">
-
-<h1><strong>Tucker Capps</strong></h1>
-<p><em>PhD Student in Astrophysics</em></p>
-<p><em>University of Oklahoma</em></p>
-
-<hr style="width:40%; border:1px solid #444; margin:1.5rem auto;">
+  <div style="max-width:450px; margin:1rem; text-align:left;">
+    <p style="font-size:1.1rem; margin-bottom:0.3rem;"><strong>PhD Student in Astrophysics</strong></p>
+    <p style="margin:0;">University of Oklahoma</p>
+    <p style="margin-top:0.5rem; color:#aaa; font-style:italic;">Galactic Archaeology • HPC Simulations • Machine Learning</p>
+  </div>
 
 </div>
+
+<hr style="width:60%; border:1px solid #333; margin:1.5rem auto;">
 
 I study the formation and evolution of galaxies through large-scale simulations of stellar dynamics and chemical enrichment.  
 My work focuses on understanding how stars migrate, mix, and carry the chemical fingerprints of the Milky Way’s history.
