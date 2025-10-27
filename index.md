@@ -14,7 +14,7 @@ title: "Home"
 <div align="center">
 
 <h1><strong>Tucker Capps</strong></h1>
-<p><em>PhD Candidate in Astrophysics</em></p>
+<p><em>PhD Student in Astrophysics</em></p>
 <p><em>University of Oklahoma</em></p>
 
 <hr style="width:40%; border:1px solid #444; margin:1.5rem auto;">
