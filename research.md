@@ -48,16 +48,14 @@ Future directions include incorporating **gyrochronology**, **uncertainty calibr
 ---
 
 ### Past Work
-Before joining OU as PhD student, I worked at **NASA Ames Research Center** as part of the **OSTEM Internship Program**, where I developed acoustic power maps of solar active regions to study subsurface flow structures. 
-As an undergraduate student, 
-This experience sparked my interest in high-performance computing and large-scale data analysis in astrophysical contexts.
+Before beginning my PhD, I worked on high-performance astrophysical modeling projects that shaped my current research direction. As an undergraduate, I conducted a capstone project under Dr. Xinyu Dai analyzing microlensing magnification maps for the quasar RX J1131–1231 using Chandra X-ray data and simulations run on OSCER. This work explored how stellar mass fraction, convergence, and shear affect caustic density, leading to constraints on extragalactic planet-mass objects. I later joined NASA Ames Research Center as an OSTEM intern, developing acoustic power maps of solar active regions to investigate subsurface flow structures. Both of these experiences deepened my interest in computational astrophysics and HPC-driven analysis.
 
 ---
 
 ### Methods & Tools
 - **Simulation Analysis:** `pynbody`, `yt`, `NumPy`, `SciPy`, `h5py`
 - **Parallelization & HPC:** `mpi4py`, `OpenMPI`, Slurm job scheduling
-- **Machine Learning:** `XGBoost`, `scikit-learn`, `pandas`, `matplotlib`
-- **Visualization:** `plotly`, `matplotlib`, `seaborn`, Blender (for 3D renders)
+- **Machine Learning:** `XGBoost`, `scikit-learn`, `pytorch`, `pandas`, `matplotlib`
+- **Visualization:** `plotly`, `matplotlib`, `seaborn`
 
 ---
