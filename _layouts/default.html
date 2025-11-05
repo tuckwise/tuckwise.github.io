@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% include head.html %}
-  
-  <body style="
-  margin: 0;
-  padding: 0;
-  color: #e0e0e0;
-  background-color: black;
-  overflow-x: hidden;
-">
+<body style="margin: 0; padding: 0; color: #e0e0e0; background-color: black; overflow-x: hidden;">
+
+  <!-- Fixed full-screen background image -->
   <div style="
     position: fixed;
     top: 0;
@@ -17,39 +9,47 @@
     height: 100vh;
     background: url('https://tuckwise.github.io/assets/images/background.jpg') no-repeat center center;
     background-size: cover;
+    z-index: -2;
+  "></div>
+
+  <!-- Semi-transparent overlay (to keep text readable) -->
+  <div style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
     z-index: -1;
   "></div>
 
+  <!-- Header + Nav -->
+  <header style="text-align:center; margin-top:2rem;">
+    <h1 style="margin-bottom:0.5rem;">
+      <a href="{{ '/' | relative_url }}" style="text-decoration:none; color:#f5f5f5;">
+        {{ site.title }}
+      </a>
+    </h1>
+    <nav style="margin:1rem 0;">
+      <a href="{{ '/' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Home</a>
+      <a href="{{ '/research' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Research</a>
+      <a href="{{ '/projects' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Projects</a>
+      <a href="{{ '/outreach' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Outreach</a>
+      <a href="{{ '/cv' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">CV</a>
+    </nav>
+  </header>
 
+  <!-- Main content container (scrolls over the background) -->
+  <main class="main-card" style="max-width:900px; margin:4rem auto; background-color:rgba(0,0,0,0.5); padding:2rem; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.6);">
+    {{ content }}
+  </main>
 
-    <!-- Header + Nav (floats freely over background) -->
-    <header style="text-align:center; margin-top:2rem;">
-      <h1 style="margin-bottom:0.5rem;">
-        <a href="{{ '/' | relative_url }}" style="text-decoration:none; color:#f5f5f5;">
-          {{ site.title }}
-        </a>
-      </h1>
-      <nav style="margin:1rem 0;">
-        <a href="{{ '/' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Home</a>
-        <a href="{{ '/research' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Research</a>
-        <a href="{{ '/projects' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Projects</a>
-        <a href="{{ '/outreach' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">Outreach</a>
-        <a href="{{ '/cv' | relative_url }}" style="margin:0 10px; padding:6px 14px; border:1px solid #a989ff; border-radius:6px; color:#a989ff; text-decoration:none; font-weight:600;">CV</a>
-      </nav>
-    </header>
-
-    <!-- Main content container (black box overlay) -->
-    <main class="main-card">
-      {{ content }}
-    </main>
-
-    <footer style="text-align:center; margin:3rem 0 1rem 0; font-size:0.9rem; color:#888;">
-      <p>© {{ site.time | date: "%Y" }} {{ site.author.name }} • {{ site.author.university }}</p>
-      <p>
-        <a href="https://github.com/{{ site.author.github }}" style="color:#888; text-decoration:none;">GitHub</a> |
-        <a href="https://linkedin.com/in/{{ site.author.linkedin }}" style="color:#888; text-decoration:none;">LinkedIn</a> |
-        <a href="https://orcid.org/{{ site.author.orcid }}" style="color:#888; text-decoration:none;">ORCID</a>
-      </p>
-    </footer>
-  </body>
-</html>
+  <footer style="text-align:center; margin:3rem 0 1rem 0; font-size:0.9rem; color:#888;">
+    <p>© {{ site.time | date: "%Y" }} {{ site.author.name }} • {{ site.author.university }}</p>
+    <p>
+      <a href="https://github.com/{{ site.author.github }}" style="color:#888; text-decoration:none;">GitHub</a> |
+      <a href="https://linkedin.com/in/{{ site.author.linkedin }}" style="color:#888; text-decoration:none;">LinkedIn</a> |
+      <a href="https://orcid.org/{{ site.author.orcid }}" style="color:#888; text-decoration:none;">ORCID</a>
+    </p>
+  </footer>
+</body>
