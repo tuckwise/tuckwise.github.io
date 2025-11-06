@@ -20,16 +20,15 @@ title: "Home"
 
 <hr style="width:60%; border:1px solid #333; margin:1.5rem auto;">
 
-I study the formation and evolution of galaxies through large-scale simulations of stellar dynamics and chemical enrichment.  
-My work focuses on understanding how stars migrate, mix, and carry the chemical fingerprints of the Milky Way’s history.
+I study the formation and evolution of galaxies through large-scale simulations that trace stellar dynamics and chemical enrichment. My research focuses on how stars migrate, mix, and record the Milky Way’s chemical history.
 
-Currently, I’m developing **chemodynamical models** of disk evolution using the **NEXUS** simulation framework — combining the gravity solver **RAMSES**, the potential modeling code **AGAMA**, and custom analysis pipelines optimized for **high-performance computing** environments.
+Currently, I’m developing chemodynamical models of disk evolution using the NEXUS simulation framework, which combines the stellar-dynamics and action-based library AGAMA with the adaptive mesh refinement, N-body/hydrodynamical code RAMSES. The framework leverages these well-tested packages and incorporates modifications tailored to the specific needs of our models.
 
-I also apply **machine learning techniques** to stellar survey data (e.g., **GALAH DR4**) to infer stellar ages from chemical abundances — an approach that links statistical inference with galactic archaeology.
+In parallel, I integrate machine learning with stellar spectroscopy, applying techniques such as XGBoost to large surveys like GALAH. My master’s research used this approach to predict stellar ages directly from chemical abundances, removing the dependence on stellar evolutionary phase.
 
 ---
 
-### 🧠 Research Interests
+### Research Interests
 - Galactic archaeology & chemical evolution  
 - Stellar dynamics & radial migration  
 - HPC methods in astrophysical simulations  
@@ -37,9 +36,8 @@ I also apply **machine learning techniques** to stellar survey data (e.g., **GAL
 
 ---
 
-### 🔭 Outreach & Education
-Beyond research, I lead public engagement through the **Lunar Sooners Astronomy Outreach Organization**, organizing star parties, telescope training, and educational programs for K–12 students and the general public.  
-I’m passionate about making the night sky accessible and inspiring curiosity through hands-on experiences.
+### Outreach & Education
+Beyond research, I lead public engagement through the Lunar Sooners Astronomy Outreach Organization, organizing star parties, telescope training, and educational programs for K–12 students and the general public. I’m passionate about making the night sky accessible and inspiring curiosity through hands-on experiences.
 
 ---
 
