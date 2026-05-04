@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stellar Epicycle Visualizer</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --surface-2: #f1efe8;
+    --text: #2c2c2a;
+    --text-muted: #5f5e5a;
+    --text-subtle: #888780;
+    --border: rgba(136, 135, 128, 0.25);
+    --border-strong: rgba(136, 135, 128, 0.45);
+    --accent: #185FA5;
+    --star: #378ADD;
+    --gc: #D85A30;
+    --trail: rgba(29, 158, 117, 0.6);
+    --guide: rgba(216, 90, 48, 0.3);
+    --extrema: rgba(136, 135, 128, 0.4);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --surface: #232321;
+      --surface-2: #2c2c2a;
+      --text: #f1efe8;
+      --text-muted: #b4b2a9;
+      --text-subtle: #888780;
+      --border: rgba(180, 178, 169, 0.2);
+      --border-strong: rgba(180, 178, 169, 0.35);
+      --accent: #85B7EB;
+      --star: #85B7EB;
+      --gc: #F0997B;
+      --trail: rgba(95, 202, 165, 0.65);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 2rem;
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  .control-row label {
+    font-size: 14px;
+    color: var(--text-muted);
+    min-width: 100px;
+  }
+
+  .control-row input[type="range"] {
+    flex: 1;
+    min-width: 140px;
+    accent-color: var(--accent);
+  }
+
+  .value-out {
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 40px;
+    color: var(--text);
+  }
+
+  .button-row {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    padding: 6px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+  }
+
+  button:hover {
+    background: var(--surface-2);
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .frame-labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0 0 1rem;
+  }
+
+  .frame-label {
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    text-align: center;
+  }
+
+  .frame-label-top {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .frame-label-bottom {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  canvas {
+    width: 100%;
+    height: auto;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    display: block;
+  }
+
+  .legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    margin: 16px 0 0;
+    font-size: 13px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+  }
+
+  .swatch-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .swatch-line {
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+  }
+
+  .info {
+    margin: 2rem 0 0;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .info p { margin: 0 0 0.5rem; }
+  .info p:last-child { margin: 0; }
+  .info strong { color: var(--text); font-weight: 500; }
+  code {
+    font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Stellar epicycle visualizer</h1>
+<p class="subtitle">Inertial frame vs corotating frame — same orbit, two viewpoints.</p>
+
+<div class="control-row">
+  <label for="ecc">Eccentricity (e)</label>
+  <input type="range" min="0" max="40" value="20" id="ecc" />
+  <span class="value-out" id="ecc-out">0.20</span>
+</div>
+
+<div class="control-row">
+  <label for="kappa">κ / Ω ratio</label>
+  <input type="range" min="100" max="200" value="141" id="kappa" />
+  <span class="value-out" id="kappa-out">1.41</span>
+</div>
+
+<div class="button-row">
+  <button id="play-btn">Pause</button>
+  <button id="reset-btn">Reset</button>
+  <button id="trail-btn">Clear trails</button>
+</div>
+
+<div class="frame-labels">
+  <div class="frame-label">
+    <div class="frame-label-top">Inertial frame</div>
+    <div class="frame-label-bottom">guiding center orbits</div>
+  </div>
+  <div class="frame-label">
+    <div class="frame-label-top">Rotating frame (Ω<sub>g</sub>)</div>
+    <div class="frame-label-bottom">guiding center is fixed</div>
+  </div>
+</div>
+
+<canvas id="canvas" width="700" height="360"></canvas>
+
+<div class="legend">
+  <div class="legend-item">
+    <span class="swatch-dot" style="background: var(--star);"></span>
+    <span>Star</span>
+  </div>
+  <div class="legend-item">
+    <span class="swatch-dot" style="background: var(--gc);"></span>
+    <span>Guiding center</span>
+  </div>
+  <div class="legend-item">
+    <span class="swatch-line" style="background: var(--text-subtle);"></span>
+    <span>Pericenter / apocenter circles</span>
+  </div>
+  <div class="legend-item">
+    <span class="swatch-line" style="background: var(--trail);"></span>
+    <span>Star trail</span>
+  </div>
+</div>
+
+<div class="info">
+  <p><strong>Reference values for κ/Ω:</strong></p>
+  <p>• <code>κ/Ω = 1.00</code> — Keplerian potential (closed elliptical orbits)</p>
+  <p>• <code>κ/Ω = 1.41</code> — flat rotation curve (≈ Milky Way disk, default)</p>
+  <p>• <code>κ/Ω = 2.00</code> — solid-body rotation (epicycle becomes a circle)</p>
+  <p style="margin-top: 0.75rem;">In the rotating frame, the epicycle is elongated tangentially with axis ratio <code>2Ω/κ</code>, and the star traces it <em>retrograde</em> — opposite to the galaxy's rotation. The pericenter–apocenter precession rate (the foundation of Lin-Shu density wave theory) is <code>Ω − κ/2</code>.</p>
+</div>
+
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Handle high-DPI displays
+  function setupCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    return { w: rect.width, h: rect.height };
+  }
+
+  let dims = setupCanvas();
+  window.addEventListener('resize', () => {
+    canvas.width = 700; canvas.height = 360;
+    dims = setupCanvas();
+    render();
+  });
+
+  const eccSlider = document.getElementById('ecc');
+  const kappaSlider = document.getElementById('kappa');
+  const eccOut = document.getElementById('ecc-out');
+  const kappaOut = document.getElementById('kappa-out');
+  const playBtn = document.getElementById('play-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const trailBtn = document.getElementById('trail-btn');
+
+  let t = 0;
+  let playing = true;
+  let trailInertial = [];
+  let trailRotating = [];
+  const maxTrail = 1500;
+
+  function colors() {
+    const cs = getComputedStyle(document.documentElement);
+    return {
+      star: cs.getPropertyValue('--star').trim(),
+      gc: cs.getPropertyValue('--gc').trim(),
+      trail: cs.getPropertyValue('--trail').trim(),
+      guide: cs.getPropertyValue('--guide').trim(),
+      extrema: cs.getPropertyValue('--extrema').trim(),
+      textSubtle: cs.getPropertyValue('--text-subtle').trim(),
+      border: cs.getPropertyValue('--border').trim()
+    };
+  }
+
+  function readParams() {
+    const e = parseInt(eccSlider.value) / 100;
+    const ratio = parseInt(kappaSlider.value) / 100;
+    eccOut.textContent = e.toFixed(2);
+    kappaOut.textContent = ratio.toFixed(2);
+    return { e, ratio };
+  }
+
+  function starPosition(t, e, ratio, R_g) {
+    // Guiding center angular position (Omega_g = 1)
+    const phi_g = t;
+    // Radial epicyclic displacement: dR = -e * R_g * cos(kappa * t)
+    // (so R = R_g - dR = R_g(1 - e*cos(kappa*t)) at t=0 gives pericenter when star is at phi_g)
+    const X = e * R_g * Math.cos(ratio * t);
+    // Tangential displacement: amplitude (2*Omega/kappa) times radial, 90° out of phase
+    const Y = (2 / ratio) * e * R_g * Math.sin(ratio * t);
+
+    // Position relative to guiding center, in the rotating frame:
+    // x_rot points outward from galactic center along guiding radius
+    // y_rot points in direction of rotation
+    const r_local_x = R_g - X;
+    const r_local_y = Y;
+
+    // Inertial frame: rotate by phi_g
+    const x_in = r_local_x * Math.cos(phi_g) - r_local_y * Math.sin(phi_g);
+    const y_in = r_local_x * Math.sin(phi_g) + r_local_y * Math.cos(phi_g);
+
+    return {
+      inertial: { x: x_in, y: y_in },
+      rotating: { x: r_local_x, y: r_local_y },
+      gcInertial: { x: R_g * Math.cos(phi_g), y: R_g * Math.sin(phi_g) }
+    };
+  }
+
+  function drawFrame(cx, cy, label, gcPos, starPos, trail, R_g, c) {
+    const { e } = readParams();
+
+    // Galactic center marker
+    ctx.fillStyle = c.textSubtle;
+    ctx.globalAlpha = 0.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Pericenter and apocenter circles
+    ctx.strokeStyle = c.extrema;
+    ctx.setLineDash([3, 4]);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R_g * (1 - e), 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R_g * (1 + e), 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Guiding circle
+    ctx.strokeStyle = c.guide;
+    ctx.setLineDash([1, 3]);
+    ctx.beginPath();
+    ctx.arc(cx, cy, R_g, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Trail
+    if (trail.length > 1) {
+      ctx.strokeStyle = c.trail;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(cx + trail[0].x, cy - trail[0].y);
+      for (let i = 1; i < trail.length; i++) {
+        ctx.lineTo(cx + trail[i].x, cy - trail[i].y);
+      }
+      ctx.stroke();
+    }
+
+    // Guiding center
+    ctx.fillStyle = c.gc;
+    ctx.beginPath();
+    ctx.arc(cx + gcPos.x, cy - gcPos.y, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Star
+    ctx.fillStyle = c.star;
+    ctx.beginPath();
+    ctx.arc(cx + starPos.x, cy - starPos.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Frame label
+    ctx.fillStyle = c.textSubtle;
+    ctx.font = '12px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, cx, cy + R_g + 32);
+  }
+
+  function render() {
+    const W = dims.w, H = dims.h;
+    ctx.clearRect(0, 0, W, H);
+
+    const c = colors();
+    const cxL = W * 0.25, cxR = W * 0.75, cy = H / 2;
+    const R_g = Math.min(W * 0.16, H * 0.32);
+
+    // Divider
+    ctx.strokeStyle = c.border;
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(W / 2, 12);
+    ctx.lineTo(W / 2, H - 12);
+    ctx.stroke();
+
+    const { e, ratio } = readParams();
+    const pos = starPosition(t, e, ratio, R_g);
+
+    if (playing) {
+      trailInertial.push({ x: pos.inertial.x, y: pos.inertial.y });
+      trailRotating.push({ x: pos.rotating.x, y: pos.rotating.y });
+      if (trailInertial.length > maxTrail) trailInertial.shift();
+      if (trailRotating.length > maxTrail) trailRotating.shift();
+    }
+
+    drawFrame(cxL, cy, 'Inertial frame', pos.gcInertial, pos.inertial, trailInertial, R_g, c);
+    drawFrame(cxR, cy, 'Rotating frame', { x: R_g, y: 0 }, pos.rotating, trailRotating, R_g, c);
+  }
+
+  function animate() {
+    if (playing) t += 0.012;
+    render();
+    requestAnimationFrame(animate);
+  }
+
+  eccSlider.addEventListener('input', () => { trailInertial = []; trailRotating = []; });
+  kappaSlider.addEventListener('input', () => { trailInertial = []; trailRotating = []; });
+  playBtn.addEventListener('click', () => {
+    playing = !playing;
+    playBtn.textContent = playing ? 'Pause' : 'Play';
+  });
+  resetBtn.addEventListener('click', () => {
+    t = 0; trailInertial = []; trailRotating = [];
+  });
+  trailBtn.addEventListener('click', () => {
+    trailInertial = []; trailRotating = [];
+  });
+
+  // Re-render on color scheme change
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+  }
+
+  animate();
+})();
+</script>
+</body>
+</html>
