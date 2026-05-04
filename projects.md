@@ -3,4 +3,4 @@ layout: default
 title: "Projects"
 ---
 
-{% include under-construction.html %}
+<a href="/epicycle_visualizer.html">Epicycle Viewer</a>
