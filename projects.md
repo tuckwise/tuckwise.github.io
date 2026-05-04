@@ -3,4 +3,4 @@ layout: default
 title: "Projects"
 ---
 
-<a href="/epicycle_visualizer.html">Epicycle Viewer</a>
+<a href="/assets/epicycle_visualizer.html">Epicycle Viewer</a>
