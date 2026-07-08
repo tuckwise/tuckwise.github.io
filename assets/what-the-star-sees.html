@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What the Star Sees — resonances in the bar frame</title>
+<style>
+  :root{
+    --bg:#0e1420;
+    --panel:#121a2b;
+    --panel-edge:#243250;
+    --ink:#e9e3d3;
+    --ink-dim:#9aa3b5;
+    --bar:#e8b04b;
+    --star:#7fd4e8;
+    --ring:#8b7fc7;
+    --heat:#e8705a;
+    --lock:#8fd48a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);
+    font-family:Palatino,'Palatino Linotype','Book Antiqua',Georgia,serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 16px 48px}
+
+  header{margin-bottom:14px}
+  .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--bar)}
+  h1{font-size:clamp(26px,4.4vw,40px);font-weight:600;font-style:italic;
+    letter-spacing:.01em;margin:4px 0 6px}
+  .sub{color:var(--ink-dim);font-size:15px;max-width:62ch;line-height:1.5}
+
+  .tabs{display:flex;gap:8px;margin:18px 0 12px;flex-wrap:wrap}
+  .tab{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;
+    letter-spacing:.06em;color:var(--ink-dim);background:var(--panel);
+    border:1px solid var(--panel-edge);border-radius:3px;padding:9px 16px;
+    cursor:pointer;transition:color .15s,border-color .15s}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--bg);background:var(--bar);border-color:var(--bar);font-weight:700}
+  .tab:focus-visible{outline:2px solid var(--star);outline-offset:2px}
+
+  .viewbar{display:flex;align-items:center;gap:8px;margin:0 0 12px;flex-wrap:wrap;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim)}
+  .vtab{font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:none;
+    color:var(--ink-dim);background:var(--panel);border:1px solid var(--panel-edge);
+    border-radius:3px;padding:6px 12px;cursor:pointer;transition:color .15s,border-color .15s}
+  .vtab:hover{color:var(--ink)}
+  .vtab.active{color:var(--bg);background:var(--star);border-color:var(--star);font-weight:700}
+  .vtab:focus-visible{outline:2px solid var(--bar);outline-offset:2px}
+  #viewnote{letter-spacing:.02em;text-transform:none;font-size:11px;color:var(--ring)}
+
+  .stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(230px,1fr);
+    gap:14px;align-items:stretch}
+  @media(max-width:760px){.stage{grid-template-columns:1fr}}
+
+  .sky{position:relative;background:radial-gradient(ellipse at 50% 42%,#141d31 0%,#0d1320 62%,#0a0f19 100%);
+    border:1px solid var(--panel-edge);border-radius:4px;overflow:hidden}
+  canvas{display:block;width:100%;height:auto}
+
+  .side{display:flex;flex-direction:column;gap:14px}
+  .panel{background:var(--panel);border:1px solid var(--panel-edge);
+    border-radius:4px;padding:14px}
+  .panel h2{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+    font-weight:400;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);margin-bottom:10px}
+
+  .dialrow{display:flex;align-items:center;gap:14px}
+  #dial{flex:0 0 auto}
+  .dialkey{font-size:13px;line-height:1.6;color:var(--ink-dim)}
+  .dialkey b{font-weight:400}
+  .k-bar{color:var(--bar)} .k-star{color:var(--star)}
+  #lockmsg{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;
+    margin-top:6px;color:var(--ink-dim);min-height:16px}
+  #lockmsg.locked{color:var(--lock)}
+
+  .chartlabel{display:flex;justify-content:space-between;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+    color:var(--ink-dim);margin:8px 0 3px}
+  .chartlabel .v{color:var(--ink)}
+  .chartlabel .jr{color:var(--heat)} .chartlabel .lz{color:var(--bar)}
+
+  .controls{display:flex;flex-direction:column;gap:10px}
+  .ctl{display:flex;align-items:center;gap:10px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--ink-dim)}
+  .ctl label{flex:0 0 92px}
+  input[type=range]{flex:1;accent-color:var(--bar);min-width:0}
+  .btnrow{display:flex;gap:8px;margin-top:2px}
+  button.act{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;
+    background:transparent;color:var(--ink);border:1px solid var(--panel-edge);
+    border-radius:3px;padding:7px 14px;cursor:pointer}
+  button.act:hover{border-color:var(--bar);color:var(--bar)}
+  button.act:focus-visible{outline:2px solid var(--star);outline-offset:2px}
+
+  .caption{margin-top:14px;background:var(--panel);border:1px solid var(--panel-edge);
+    border-left:3px solid var(--bar);border-radius:4px;padding:14px 16px;
+    font-size:15px;line-height:1.6;max-width:1060px}
+  .caption em{color:var(--bar);font-style:italic}
+  .foot{margin-top:10px;font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:11px;color:#5d6778;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">rotating frame · bar frozen · m = 2</div>
+    <h1>What the Star Sees</h1>
+    <p class="sub">One geometry, two seats. Sit on the star's guiding center and watch the bar's
+    two lobes sweep over it — or freeze the bar and watch the star drift past the lobes.
+    Either way, only when the passing cadence matches the epicyclic frequency κ does the orbit get pumped.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-mode="ILR" role="tab">ILR · inside CR</button>
+    <button class="tab active" data-mode="CR" role="tab">Corotation</button>
+    <button class="tab" data-mode="OLR" role="tab">OLR · outside CR</button>
+  </div>
+
+  <div class="viewbar">
+    <span>frame</span>
+    <button class="vtab active" data-view="star">star's guiding center</button>
+    <button class="vtab" data-view="bar">bar frozen</button>
+    <span id="viewnote"></span>
+  </div>
+
+  <div class="stage">
+    <div class="sky"><canvas id="sky" aria-label="Star orbiting in the rotating frame of a galactic bar"></canvas></div>
+
+    <div class="side">
+      <div class="panel">
+        <h2>The swing clock</h2>
+        <div class="dialrow">
+          <canvas id="dial" width="150" height="150"></canvas>
+          <div class="dialkey">
+            <b class="k-bar">amber</b> — bar forcing phase 2φ<br>
+            <b class="k-star">ice</b> — epicycle phase<br>
+            <span style="font-size:12px">two hands, one clock: resonance is when they turn together.</span>
+          </div>
+        </div>
+        <div id="lockmsg"></div>
+      </div>
+
+      <div class="panel">
+        <h2>The ledger</h2>
+        <div class="chartlabel"><span class="jr">J_R &nbsp;(radial heat)</span><span class="v" id="jrval">0.000</span></div>
+        <canvas id="jrchart" width="300" height="54"></canvas>
+        <div class="chartlabel"><span class="lz">ΔL_z &nbsp;(paid to / from bar)</span><span class="v" id="lzval">0.000</span></div>
+        <canvas id="lzchart" width="300" height="54"></canvas>
+      </div>
+
+      <div class="panel controls">
+        <h2>Controls</h2>
+        <div class="ctl"><label for="fslider">bar strength</label>
+          <input type="range" id="fslider" min="1" max="10" step="1" value="4"></div>
+        <div class="ctl"><label for="sslider">time flow</label>
+          <input type="range" id="sslider" min="0" max="10" step="1" value="5"></div>
+        <div class="btnrow">
+          <button class="act" id="pausebtn">Pause</button>
+          <button class="act" id="resetbtn">Reset star</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption" id="caption"></div>
+  <div class="foot">Radii stylized for legibility; drift/sweep rates are exact (2|Ω−Ω<sub>p</sub>| = κ at the Lindblad rings, flat-curve epicycle ratio 2Ω/κ = √2).
+  Growth at ILR/OLR saturates by nonlinear detuning — the seed of resonant trapping. Trails are frame-dependent and clear on toggle; the physics never resets.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- constants ---------- */
+const KAPPA = 1.0;                 // epicyclic frequency, all modes
+const ELL   = Math.SQRT2;          // 2Ω/κ for flat rotation curve
+const RADII = {ILR:0.55, CR:1.0, OLR:1.50};   // stylized ring radii (world units)
+const BETA  = 8.0;                 // nonlinear detuning -> saturation (trapping seed)
+
+const MODES = {
+  ILR:{ drift:+0.5, sgn:-1,
+    bar:"<em>Inner Lindblad resonance — bar frame.</em> The star orbits faster than the bar, so here it drifts <em>forward</em>, lapping the two lobes. The resonance condition 2(Ω−Ω<sub>p</sub>) = κ means it meets a lobe exactly once per epicyclic beat — every outward swing gets a shove in phase. Watch the swing clock lock and the loop grow: J_R climbs while L_z is <em>paid to the bar</em>.",
+    star:"<em>Inner Lindblad resonance — the star's seat.</em> The guiding center hangs in place; the star just rides its epicycle. What it sees is the bar's two lobes sweeping <em>backward</em> over it — the star outruns the pattern, so the pattern falls past — with one lobe arriving per epicyclic beat. The push comes to the swing, timed to its own period: 2(Ω−Ω<sub>p</sub>) = κ. The loop grows in place; L_z drains to the bar."},
+  CR:{ drift:0.0, sgn:0,
+    bar:"<em>Corotation — bar frame.</em> No drift: the bar is a frozen landscape, a fixed hill and trough. The star sloshes in the trough on a horseshoe — the guiding center swings in azimuth <em>and</em> radius as L_z churns back and forth — but the forcing is quasi-static, so the little epicycle is never pumped. Lots of L_z motion, no heat: pure churning.",
+    star:"<em>Corotation — the star's seat.</em> Toggle the frame and nothing changes: <em>the two frames coincide</em>. That is what corotation means — the star's frame is the bar's frame. The bar hangs motionless, a static hill and trough, and the star sloshes in it. There is no passing cadence at all, so nothing can resonate with κ. L_z churns; J_R sleeps."},
+  OLR:{ drift:-0.5, sgn:+1,
+    bar:"<em>Outer Lindblad resonance — bar frame.</em> Now the bar overtakes the star, so the drift runs <em>backward</em> — same two lobes, opposite sense of passing, same cadence: κ. The epicycle is pumped just as coherently, but the bookkeeping flips — the star <em>receives</em> L_z from the bar while it heats. The bar hands angular momentum outward across the disk.",
+    star:"<em>Outer Lindblad resonance — the star's seat.</em> Same seat, opposite traffic: the star is slower than the pattern, so the lobes sweep <em>forward</em> over it — again exactly one per epicyclic beat. Resonant pumping identical to the ILR, but the ledger reverses: the swing grows while L_z flows <em>from</em> the bar to the star. Heat plus L_z loss inside CR, heat plus L_z gain outside — the bar's outward transport in one picture."}
+};
+
+/* ---------- state ---------- */
+let mode="CR", view="star", running=true, t=0;
+let F=0.004, speed=1.0;
+let phi, psi, psidot;              // guiding-center azimuth / pendulum (CR)
+let xi, xidot;                     // radial epicyclic displacement + velocity
+let Rg, Rg0, JR0, dLz;
+let trail=[], jrHist=[], lzHist=[];
+let lastPhaseDiff=null, lockScore=0;
+const HIST=520;
+
+function reset(){
+  t=0; trail=[]; jrHist=[]; lzHist=[]; lockScore=0; lastPhaseDiff=null;
+  Rg0=RADII[mode]; Rg=Rg0; dLz=0;
+  xi=0.045; xidot=0;                    // small seed epicycle
+  JR0=(xidot*xidot+KAPPA*KAPPA*xi*xi)/(2*KAPPA);
+  if(mode==="CR"){ psi=1.25; psidot=0; phi=Math.PI/2+psi; }
+  else{ phi=0; }
+}
+
+/* ---------- physics ---------- */
+function omegaLib(){ return 0.32*Math.sqrt(F/0.004); }
+
+function step(dt){
+  if(mode==="CR"){
+    const wl=omegaLib();
+    psidot += -wl*wl*Math.sin(2*psi)*dt;
+    psi    += psidot*dt;
+    phi = Math.PI/2 + psi;
+    Rg  = Rg0 - 0.32*psidot;            // Lz churn: drift rate <-> guiding radius
+    dLz = (Rg-Rg0)*2.2;
+  }else{
+    phi += MODES[mode].drift*dt;
+  }
+  // driven epicycle with soft nonlinear detuning (saturation ~ trapping)
+  const force = F*Math.cos(2*phi);
+  xidot += (-KAPPA*KAPPA*xi*(1+BETA*xi*xi) + force)*dt;
+  xi    += xidot*dt;
+
+  if(mode!=="CR"){
+    const JR=(xidot*xidot+KAPPA*KAPPA*xi*xi)/(2*KAPPA);
+    dLz = MODES[mode].sgn*2*(JR-JR0);   // ΔJ_R = ∓ΔL_z/m , m=2
+    Rg  = Rg0 + 0.35*dLz;               // star sinks (ILR) / lifts (OLR) slightly
+  }
+  t+=dt;
+}
+
+function starPos(){                      // world coords, bar along x
+  const eta = ELL*(xidot/KAPPA);         // azimuthal excursion -> retrograde loop
+  const R = Rg+xi, th = phi + eta/Math.max(Rg,0.2);
+  return {x:R*Math.cos(th), y:R*Math.sin(th), R:R, th:th};
+}
+
+/* ---------- canvases ---------- */
+const sky=document.getElementById('sky'), sctx=sky.getContext('2d');
+const dial=document.getElementById('dial'), dctx=dial.getContext('2d');
+const jrC=document.getElementById('jrchart'), jctx=jrC.getContext('2d');
+const lzC=document.getElementById('lzchart'), lctx=lzC.getContext('2d');
+let W=640,H=560,SC=170,DPR=1;
+
+function sizeCanvases(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  const w=sky.parentElement.clientWidth;
+  const h=Math.max(380,Math.min(600,w*0.9));
+  sky.width=w*DPR; sky.height=h*DPR;
+  sky.style.height=h+'px';
+  W=w; H=h; SC=Math.min(w,h)*0.285;
+  for(const c of [dial,jrC,lzC]){
+    const cw=c===dial?150:c.parentElement.clientWidth-28;
+    const ch=c===dial?150:54;
+    c.width=cw*DPR; c.height=ch*DPR;
+    c.style.width=cw+'px'; c.style.height=ch+'px';
+  }
+}
+window.addEventListener('resize',()=>{sizeCanvases();});
+
+/* starfield */
+let stars=[];
+function makeStars(){ stars=[]; for(let i=0;i<110;i++)
+  stars.push({x:Math.random(),y:Math.random(),a:0.15+Math.random()*0.5,r:Math.random()<0.9?0.7:1.3});}
+makeStars();
+
+function arcArrow(ctx, r, aStart, dA, color){
+  ctx.strokeStyle=color; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.arc(0,0,r,-aStart,-(aStart+dA),dA>0); ctx.stroke();
+  const aE=aStart+dA, hx=r*Math.cos(aE), hy=-r*Math.sin(aE);
+  const ta=-aE+(dA>0?-Math.PI/2:Math.PI/2);
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.moveTo(hx,hy);
+  ctx.lineTo(hx+7*Math.cos(ta+2.6),hy+7*Math.sin(ta+2.6));
+  ctx.lineTo(hx+7*Math.cos(ta-2.6),hy+7*Math.sin(ta-2.6));
+  ctx.closePath(); ctx.fill();
+}
+
+function drawSky(){
+  const ctx=sctx; ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,H);
+  // stars
+  for(const s of stars){ ctx.globalAlpha=s.a; ctx.fillStyle='#cfd8ea';
+    ctx.beginPath(); ctx.arc(s.x*W,s.y*H,s.r,0,6.283); ctx.fill(); }
+  ctx.globalAlpha=1;
+  const cx=W/2, cy=H/2;
+  ctx.save(); ctx.translate(cx,cy);
+
+  // frame rotation: 0 in bar frame; -phi in the star's guiding-center frame
+  const wr = (view==="star") ? -phi : 0;
+
+  // bar: amber quadrupole glow (frozen in bar frame; sweeping past in star frame)
+  const bl=RADII.CR*SC*0.92;
+  ctx.save(); ctx.rotate(-wr);
+  let g=ctx.createRadialGradient(0,0,0,0,0,bl);
+  g.addColorStop(0,'rgba(232,176,75,0.50)');
+  g.addColorStop(0.55,'rgba(232,176,75,0.16)');
+  g.addColorStop(1,'rgba(232,176,75,0)');
+  ctx.save(); ctx.scale(1,0.34); ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(0,0,bl,0,6.283); ctx.fill(); ctx.restore();
+  // faint potential contours (m=2)
+  ctx.strokeStyle='rgba(232,176,75,0.22)'; ctx.setLineDash([3,5]); ctx.lineWidth=1;
+  for(const s of [0.5,0.75]){ ctx.save(); ctx.scale(1,0.42);
+    ctx.beginPath(); ctx.arc(0,0,bl*s/0.9,0,6.283); ctx.stroke(); ctx.restore(); }
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  // resonance rings (circles: identical in both frames)
+  const names={ILR:'ILR',CR:'CR',OLR:'OLR'};
+  for(const k of ['ILR','CR','OLR']){
+    const r=RADII[k]*SC, active=(k===mode);
+    ctx.strokeStyle=active?'rgba(139,127,199,0.85)':'rgba(139,127,199,0.28)';
+    ctx.lineWidth=active?1.6:1; ctx.setLineDash(active?[]:[4,6]);
+    ctx.beginPath(); ctx.arc(0,0,r,0,6.283); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=active?'rgba(233,227,211,0.9)':'rgba(154,163,181,0.55)';
+    ctx.font='11px ui-monospace,Menlo,monospace';
+    ctx.fillText(names[k], r*Math.cos(-0.62)+5, -r*Math.sin(-0.62));
+  }
+
+  // trail (each point rendered in the current frame at its own recorded time)
+  if(trail.length>1){
+    ctx.beginPath();
+    for(let i=0;i<trail.length;i++){
+      const p=trail[i];
+      const a=p.th+((view==="star")?-p.gphi:0);
+      const X=p.R*Math.cos(a)*SC, Y=-p.R*Math.sin(a)*SC;
+      i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
+    }
+    ctx.strokeStyle='rgba(127,212,232,0.4)'; ctx.lineWidth=1.4; ctx.stroke();
+  }
+
+  // guiding center + epicycle ellipse (pinned at angle 0 in the star frame)
+  const gA=phi+wr;
+  const gcx=Rg*Math.cos(gA)*SC, gcy=-Rg*Math.sin(gA)*SC;
+  const amp=Math.sqrt(xi*xi+(xidot/KAPPA)*(xidot/KAPPA));
+  ctx.save(); ctx.translate(gcx,gcy); ctx.rotate(-gA);
+  ctx.strokeStyle='rgba(127,212,232,0.35)'; ctx.lineWidth=1; ctx.setLineDash([2,4]);
+  ctx.beginPath(); ctx.ellipse(0,0,Math.max(amp*SC,2),Math.max(amp*ELL*SC,2),0,0,6.283);
+  ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+  ctx.fillStyle='rgba(233,227,211,0.7)';
+  ctx.beginPath(); ctx.arc(gcx,gcy,2,0,6.283); ctx.fill();
+
+  // the star
+  const p=starPos(); const sA=p.th+wr;
+  const sx=p.R*Math.cos(sA)*SC, sy=-p.R*Math.sin(sA)*SC;
+  const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,10);
+  sg.addColorStop(0,'rgba(127,212,232,1)'); sg.addColorStop(1,'rgba(127,212,232,0)');
+  ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(sx,sy,10,0,6.283); ctx.fill();
+  ctx.fillStyle='#eafcff'; ctx.beginPath(); ctx.arc(sx,sy,3,0,6.283); ctx.fill();
+
+  // motion cue
+  if(mode!=="CR"){
+    if(view==="bar"){   // star drifts along its ring
+      const dir=MODES[mode].drift>0?1:-1;
+      arcArrow(ctx, RADII[mode]*SC, phi+dir*0.12, dir*0.45, 'rgba(233,227,211,0.6)');
+    }else{              // bar sweeps past the pinned star
+      const sweep=-MODES[mode].drift>0?1:-1;
+      arcArrow(ctx, bl*0.72, wr+sweep*0.22, sweep*0.5, 'rgba(232,176,75,0.85)');
+      arcArrow(ctx, bl*0.72, wr+Math.PI+sweep*0.22, sweep*0.5, 'rgba(232,176,75,0.85)');
+    }
+  }
+  ctx.restore();
+}
+
+/* swing clock */
+function drawDial(){
+  const ctx=dctx; ctx.setTransform(DPR,0,0,DPR,0,0);
+  const s=150; ctx.clearRect(0,0,s,s);
+  const c=s/2, r=58;
+  ctx.strokeStyle='rgba(139,127,199,0.5)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.arc(c,c,r,0,6.283); ctx.stroke();
+  for(let i=0;i<12;i++){ const a=i*Math.PI/6;
+    ctx.strokeStyle='rgba(154,163,181,0.4)';
+    ctx.beginPath(); ctx.moveTo(c+(r-4)*Math.cos(a),c+(r-4)*Math.sin(a));
+    ctx.lineTo(c+r*Math.cos(a),c+r*Math.sin(a)); ctx.stroke(); }
+  const fRaw=(mode==="OLR")?-2*phi:2*phi;   // cos(2φ) is even: take advancing phase
+  const fPh=((fRaw)%6.283+6.283)%6.283;
+  const ePh=Math.atan2(-xidot/KAPPA,xi);
+  function hand(a,col,len){ ctx.strokeStyle=col; ctx.lineWidth=2.4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(c,c); ctx.lineTo(c+len*Math.cos(-a),c+len*Math.sin(-a)); ctx.stroke(); }
+  hand(fPh,'#e8b04b',r-10);
+  hand(ePh,'#7fd4e8',r-22);
+  ctx.fillStyle='#e9e3d3'; ctx.beginPath(); ctx.arc(c,c,2.5,0,6.283); ctx.fill();
+
+  // lock detection: is the phase difference steady?
+  let d=fPh-ePh; d=Math.atan2(Math.sin(d),Math.cos(d));
+  if(lastPhaseDiff!==null){
+    let dd=Math.abs(Math.atan2(Math.sin(d-lastPhaseDiff),Math.cos(d-lastPhaseDiff)));
+    lockScore=0.97*lockScore+0.03*(dd<0.02?1:0);
+  }
+  lastPhaseDiff=d;
+  const msg=document.getElementById('lockmsg');
+  if(mode==="CR"){ msg.className=''; msg.textContent='amber hand ~ still: quasi-static forcing, nothing to pump'; }
+  else if(lockScore>0.6){ msg.className='locked'; msg.textContent='◉ phase-locked — every pass pumps the swing'; }
+  else{ msg.className=''; msg.textContent='hands turning together…'; }
+}
+
+/* strip charts */
+function drawChart(ctx,cv,hist,col,zeroline){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  const w=cv.width/DPR,h=cv.height/DPR;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='rgba(14,20,32,0.6)'; ctx.fillRect(0,0,w,h);
+  if(hist.length<2) return;
+  let lo=Math.min(...hist), hi=Math.max(...hist);
+  if(zeroline){ lo=Math.min(lo,-0.001); hi=Math.max(hi,0.001);
+    const pad=(hi-lo)*0.1; lo-=pad; hi+=pad;
+    const zy=h-(0-lo)/(hi-lo)*h;
+    ctx.strokeStyle='rgba(154,163,181,0.3)'; ctx.setLineDash([2,4]);
+    ctx.beginPath(); ctx.moveTo(0,zy); ctx.lineTo(w,zy); ctx.stroke(); ctx.setLineDash([]);
+  } else { lo=0; hi=Math.max(hi*1.1,0.005); }
+  ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.beginPath();
+  for(let i=0;i<hist.length;i++){
+    const X=i/(HIST-1)*w, Y=h-(hist[i]-lo)/(hi-lo)*h;
+    i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
+  }
+  ctx.stroke();
+}
+
+/* ---------- loop ---------- */
+function frame(){
+  if(running){
+    const sub=6, dt=0.02*speed;
+    for(let i=0;i<sub;i++) step(dt);
+    const p=starPos();
+    trail.push({R:p.R,th:p.th,gphi:phi}); if(trail.length>900) trail.shift();
+    const JR=(xidot*xidot+KAPPA*KAPPA*xi*xi)/(2*KAPPA);
+    jrHist.push(JR); lzHist.push(dLz);
+    if(jrHist.length>HIST){jrHist.shift();lzHist.shift();}
+    document.getElementById('jrval').textContent=JR.toFixed(3);
+    document.getElementById('lzval').textContent=(dLz>=0?'+':'')+dLz.toFixed(3);
+  }
+  drawSky(); drawDial();
+  drawChart(jctx,jrC,jrHist,'#e8705a',false);
+  drawChart(lctx,lzC,lzHist,'#e8b04b',true);
+  requestAnimationFrame(frame);
+}
+
+/* ---------- ui ---------- */
+function setCaption(){
+  document.getElementById('caption').innerHTML=MODES[mode][view];
+  const n=document.getElementById('viewnote');
+  if(view==="star") n.textContent=(mode==="CR")
+    ? "at corotation the two frames coincide"
+    : "star pinned · bar sweeps past at 2|Ω−Ω_p| = κ per lobe";
+  else n.textContent=(mode==="CR")
+    ? "" : "bar pinned · star drifts past the lobes at κ";
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); mode=b.dataset.mode;
+  setCaption(); reset();
+}));
+document.querySelectorAll('.vtab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.vtab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); view=b.dataset.view;
+  trail=[];             // trails are frame-dependent; physics continues untouched
+  setCaption();
+}));
+document.getElementById('fslider').addEventListener('input',e=>{F=0.001*e.target.value;});
+document.getElementById('sslider').addEventListener('input',e=>{speed=e.target.value/5;});
+document.getElementById('resetbtn').addEventListener('click',reset);
+const pb=document.getElementById('pausebtn');
+pb.addEventListener('click',()=>{running=!running;pb.textContent=running?'Pause':'Resume';});
+
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  running=false; pb.textContent='Resume';
+}
+
+setCaption();
+sizeCanvases(); reset(); frame();
+})();
+</script>
+</body>
+</html>
