@@ -29,8 +29,8 @@ In parallel, I integrate machine learning with stellar spectroscopy, applying te
 ---
 
 ### Research Interests
-- Galactic archaeology & chemical evolution  
-- Stellar dynamics & radial migration  
+- Stellar dynamics & kinetic theory
+- Galactic archaeology & chemical evolution    
 - HPC methods in astrophysical simulations  
 - Physics-informed machine learning
 
