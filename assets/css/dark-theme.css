@@ -109,3 +109,15 @@ img {
 ::selection {
   background: #b58cff33;
 }
+
+a,
+a:visited {
+  color: #e0b978;
+  text-decoration-color: rgba(224, 185, 120, 0.4);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: #f0d3a0;
+  text-decoration-color: #f0d3a0;
+}
