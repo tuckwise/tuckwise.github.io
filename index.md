@@ -14,7 +14,7 @@ title: "Home"
     <p style="margin-top:0.5rem; color:#aaa; font-style:italic;">Stellar Dynamics • Galaxy Simulations • HPC</p>
     <p style="margin-top:1rem;">
       <a href="/assets/capps_cv.pdf">Curriculum Vitae</a>
-      <span style="color:#777; font-size:0.85rem; margin-left:0.5rem;">updated August 2026</span>
+      <span style="color:#777; font-size:0.85rem; margin-left:0.5rem;">(Updated August 2026)</span>
     </p>
   </div>
 </div>
