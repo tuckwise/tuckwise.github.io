@@ -12,8 +12,14 @@ title: "Home"
     <p style="font-size:1.1rem; margin-bottom:0.3rem;"><strong>PhD Candidate in Astrophysics</strong></p>
     <p style="margin:0;">University of Oklahoma</p>
     <p style="margin-top:0.5rem; color:#aaa; font-style:italic;">Stellar Dynamics • Galaxy Simulations • HPC</p>
+    <p style="margin-top:1rem;">
+      <a href="/assets/capps_cv.pdf">Curriculum Vitae</a>
+      <span style="color:#777; font-size:0.85rem; margin-left:0.5rem;">updated August 2026</span>
+    </p>
   </div>
 </div>
+
+  
 
 <hr style="width:60%; border:1px solid #333; margin:1.5rem auto;">
 
