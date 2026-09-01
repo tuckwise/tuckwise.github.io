@@ -13,7 +13,7 @@ title: "Home"
     <p style="margin:0;">University of Oklahoma</p>
     <p style="margin-top:0.5rem; color:#aaa; font-style:italic;">Stellar Dynamics • Galaxy Simulations • HPC</p>
     <p style="margin-top:1rem;">
-      <a href="/assets/Capps_CV.pdf">Curriculum Vitae</a>
+      <a href="./assets/Capps_CV.pdf">Curriculum Vitae</a>
       <span style="color:#777; font-size:0.85rem; margin-left:0.5rem;">(Updated August 2026)</span>
     </p>
   </div>
