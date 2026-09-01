@@ -21,7 +21,7 @@ My approach is to build simulations as controlled experiments. Cosmological mode
 
 My primary project examines how the rate of secular evolution depends on the properties of the disk that drives it. By running families of isolated disk models and varying their structural parameters, I look at whether the resulting migration histories can be understood as the same underlying process running at different speeds, and what sets that rate.
 
-This work uses the NEXUS framework, which couples RAMSES, an adaptive mesh refinement code for self-gravitating radiative hydrodynamics, with AGAMA, an action-based library for potential solving and phase-space analysis. Production runs are carried out on various HPC clusters, with custom analysis pipelines in Python parallelized with MPI for multi-snapshot work.
+This work uses the NEXUS framework, which couples RAMSES, an adaptive mesh refinement code for self-gravitating radiative hydrodynamics, with AGAMA, an action-based library for potential solving and phase-space analysis. Production runs are carried out on various HPC clusters, with custom analysis pipelines in Python parallelized for multi-snapshot work.
 
 <hr style="width:60%; border:1px solid #444; margin:1.5rem auto;">
 
