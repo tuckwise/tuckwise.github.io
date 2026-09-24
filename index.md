@@ -9,7 +9,7 @@ title: "Home"
        width="200"
        style="border-radius:12px; margin:1rem; box-shadow:0 0 10px rgba(100,100,100,0.3);">
   <div style="max-width:450px; margin:1rem; text-align:left;">
-    <p style="font-size:1.1rem; margin-bottom:0.3rem;"><strong>PhD Candidate in Astrophysics</strong></p>
+    <p style="font-size:1.1rem; margin-bottom:0.3rem;"><strong>PhD Student in Astrophysics</strong></p>
     <p style="margin:0;">University of Oklahoma</p>
     <p style="margin-top:0.5rem; color:#aaa; font-style:italic;">Stellar Dynamics • Galaxy Simulations • HPC</p>
     <p style="margin-top:1rem;">
