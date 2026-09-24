@@ -23,9 +23,9 @@ title: "Home"
 
 <hr style="width:60%; border:1px solid #333; margin:1.5rem auto;">
 
-I study how disk galaxies rearrange themselves over time. My work centers on secular evolution: radial migration and dynamical heating, spiral structure, and the slow redistribution of angular momentum that reshapes a disk long after it forms.
+I study how galaxies rearrange themselves over time. My current work centers on secular evolution: radial migration and dynamical heating, the effects of spiral structure, and the slow redistribution of angular momentum that reshapes a galaxy long after it forms.
 
-Most of what I do is simulation work, built around N-body models designed as controlled tests of dynamical theory. Working in idealized conditions lets me isolate a single mechanism and ask what it actually does, which is difficult in a cosmological setting where everything happens at once. I work primarily in RAMSES and AGAMA.
+Most of what I do is simulation work, built around N-body/hydrodynamical models designed as controlled tests. Working in idealized conditions lets me isolate a single mechanism and ask what it actually does, while working in a cosmological setting allows me to experiment with realistic merger/accretion histories. I work primarily in RAMSES and AGAMA.
 
 Chemical abundances enter as a diagnostic. Migration leaves a record in the chemistry of a disk, so chemodynamical signatures are one of the clearest observational handles on dynamical processes we cannot watch directly.
 
@@ -38,7 +38,7 @@ Before this I trained in data science and worked as a business intelligence anal
 - Secular evolution of stellar disks
 - Spiral structure and disk instabilities
 - Kinetic theory of self-gravitating systems
-- Idealized N-body simulation as a test of theory
+- N-body/hydro simulations as experiments
 - HPC methods in astrophysical simulation
 
 <hr style="width:60%; border:1px solid #333; margin:1.5rem auto;">
